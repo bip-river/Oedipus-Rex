@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Oedipus Rex &middot; A Companion</title>
+<style>
+/* ============================================================
+   OEDIPUS REX — inherits the Antigone skeleton (dark ground,
+   bone text, one metal accent, oxblood for death) but shifts to
+   this play's world: a colder, plague-lit stone; a brazen gold
+   for Apollo's oracle and the truth dragged into light; a cold
+   slate for fate and prophecy. Signature: WHERE THREE ROADS MEET
+   \u2014 a crossroads glyph at every threshold.
+   ============================================================ */
+:root{
+  --ground:  #0f0e11;
+  --ground-2:#17151b;
+  --ground-3:#211d26;
+  --bone:    #e9e2d5;
+  --ash:     #9c9488;   /* muted text */
+  --stone:   #6a655e;   /* hairlines, tracked labels */
+  --gold:    #d2a53c;   /* interactive: links, oracle, the light of truth */
+  --gold-d:  #997726;
+  --oxblood: #a83228;   /* death only */
+  --slate:   #6f7d88;   /* fate, prophecy, pronunciation */
+  --maxread: 63ch;
+  --disp: "Optima","Palatino Linotype",Palatino,"Iowan Old Style",Georgia,serif;
+  --body: "Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --util: "Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--ground);min-height:100vh;color-scheme:dark}
+body{min-height:100vh}
+body{margin:0;background:var(--ground);color:var(--bone);font-family:var(--body);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-wrap:break-word}
+a{color:inherit}
+button{font-family:inherit}
+
+/* crossroads divider \u2014 the signature (a Y-junction where three roads meet) */
+.cross{height:26px;border:0;position:relative;background-repeat:no-repeat;background-position:center;
+  background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'><g stroke='%23997726' stroke-width='1.1' fill='none'><path d='M15 14V4'/><path d='M15 14L6 24'/><path d='M15 14L24 24'/></g><circle cx='15' cy='14' r='1.5' fill='%23997726'/></svg>");}
+.cross::before{content:"";position:absolute;top:44%;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-d) 26%,transparent 41%,transparent 59%,var(--gold-d) 74%,transparent);opacity:.5}
+
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:0;z-index:40;background:rgba(15,14,17,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--ground-3)}
+.top .row{max-width:920px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:16px}
+.brand{font-family:var(--disp);letter-spacing:.22em;text-transform:uppercase;font-size:.84rem;color:var(--bone);cursor:pointer;background:none;border:0;padding:6px 0}
+.brand b{color:var(--gold);font-weight:600}
+nav.modes{margin-left:auto;display:flex;gap:2px;flex-wrap:wrap}
+nav.modes button{background:none;border:0;color:var(--ash);cursor:pointer;font-family:var(--util);font-size:.71rem;letter-spacing:.13em;text-transform:uppercase;padding:7px 9px;border-radius:3px}
+nav.modes button:hover{color:var(--bone);background:var(--ground-2)}
+nav.modes button[aria-current="true"]{color:var(--ground);background:var(--gold)}
+
+main{padding:28px 0 96px;min-height:70vh}
+.fade{animation:fade .5s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* hero */
+.hero{padding:40px 0 8px}
+.eyebrow{font-family:var(--util);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--stone);margin:0 0 18px}
+.hero h1{font-family:var(--disp);font-weight:600;line-height:1.12;margin:0;font-size:clamp(2rem,6.4vw,3.5rem);letter-spacing:.005em}
+.hero h1 .b{color:var(--oxblood)}
+.hero h1 .g{color:var(--gold)}
+.hero p.lede{max-width:58ch;color:var(--ash);font-size:1.06rem;margin:22px 0 0}
+
+.ways{display:grid;grid-template-columns:1fr;gap:12px;margin:30px 0 0}
+@media(min-width:640px){.ways{grid-template-columns:1fr 1fr}}
+.way{text-align:left;cursor:pointer;background:var(--ground-2);border:1px solid var(--ground-3);border-radius:7px;padding:18px 18px 16px;color:var(--bone);transition:border-color .18s,transform .18s}
+.way:hover{border-color:var(--gold-d);transform:translateY(-2px)}
+.way .k{font-family:var(--util);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:7px}
+.way .t{font-family:var(--disp);font-size:1.2rem;display:block;margin-bottom:5px}
+.way .d{color:var(--ash);font-size:.9rem;line-height:1.45}
+
+/* start-here orientation */
+.orient{max-width:64ch;margin:32px 0 6px;padding:20px 22px 8px;background:var(--ground-2);border:1px solid var(--ground-3);border-left:3px solid var(--gold);border-radius:8px}
+.orient-h{font-family:var(--util);font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin:0 0 15px}
+.orient p{margin:0 0 13px;font-size:1rem;line-height:1.58;color:var(--bone)}
+.orient p b{display:block;font-family:var(--util);font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin:0 0 3px}
+.orient .xhint{color:var(--gold);border-bottom:1px dotted var(--gold-d)}
+
+/* view heads */
+.vhead{margin:6px 0 20px}
+.vhead .eyebrow{margin-bottom:10px}
+.vhead h2{font-family:var(--disp);font-weight:600;font-size:1.9rem;margin:0;letter-spacing:.01em}
+.vhead p{color:var(--ash);max-width:60ch;margin:12px 0 0}
+
+/* themes */
+.cluster{margin:0 0 26px}
+.cluster h3{font-family:var(--disp);font-size:1.28rem;margin:0 0 4px;color:var(--bone);border-left:3px solid var(--gold);padding-left:12px}
+.cluster .blurb{color:var(--ash);font-size:.95rem;margin:0 0 12px;padding-left:15px;max-width:58ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding-left:15px}
+.chip{cursor:pointer;background:var(--ground-2);border:1px solid var(--ground-3);border-radius:20px;padding:7px 14px;color:var(--bone);font-size:.9rem;display:inline-flex;align-items:center;gap:8px;transition:border-color .16s,background .16s}
+.chip:hover{border-color:var(--gold-d);background:var(--ground-3)}
+.chip .tag{font-family:var(--util);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--stone)}
+.chip.major .dotm{width:5px;height:5px;border-radius:50%;background:var(--gold);display:inline-block}
+
+/* by the play + investigation share the spine look */
+.spine{border-left:2px solid var(--ground-3);margin-left:6px}
+.beat{position:relative;padding:0 0 4px 26px;margin:0 0 18px}
+.beat::before{content:"";position:absolute;left:-7px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--ground);border:2px solid var(--stone)}
+.beat.ode::before{background:var(--gold);border-color:var(--gold)}
+.beat .bk{font-family:var(--util);font-size:.64rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone)}
+.beat.ode .bk{color:var(--gold)}
+.beat .bkg{color:var(--ash);margin-left:10px;text-transform:none;letter-spacing:.02em;font-size:.92em}
+.beat h4{font-family:var(--disp);font-size:1.16rem;margin:2px 0 6px}
+.bs{color:var(--ash);font-size:.94rem;margin:0 0 10px;max-width:60ch}
+.bs .xref{color:var(--gold)}
+
+/* investigation clue nodes carry roman numerals */
+.beat.clue::before{background:var(--ground);border-color:var(--gold-d);width:22px;height:22px;left:-13px;top:0;border-radius:50%;display:flex}
+.beat.clue{padding-left:30px}
+.beat .rn{position:absolute;left:-13px;top:0;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-family:var(--util);font-size:.6rem;letter-spacing:.02em;color:var(--gold)}
+
+/* house */
+.houses{display:grid;grid-template-columns:1fr;gap:22px}
+.housecard{background:var(--ground-2);border:1px solid var(--ground-3);border-radius:9px;padding:20px}
+.housecard h3{font-family:var(--disp);font-size:1.2rem;margin:0 0 3px}
+.housecard .sub{font-family:var(--util);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--stone);margin:0 0 16px}
+.gen{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px;align-items:center}
+.genlabel{font-family:var(--util);font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);width:100%;margin-top:10px}
+.hinge{margin-top:20px;padding-top:16px;border-top:1px dashed var(--ground-3);color:var(--ash);font-size:.94rem;max-width:60ch}
+.hinge b{color:var(--bone);font-weight:600}
+.hinge .xref{color:var(--gold)}
+
+/* reference */
+.refgrid{display:grid;grid-template-columns:1fr;gap:2px}
+.refrow{display:flex;gap:12px;align-items:baseline;padding:11px 8px;border-bottom:1px solid var(--ground-2);cursor:pointer}
+.refrow:hover{background:var(--ground-2)}
+.refrow .rn2{font-family:var(--disp);font-size:1.06rem;min-width:34%}
+.refrow .re{color:var(--ash);font-size:.88rem;line-height:1.4}
+.refrow .rt{font-family:var(--util);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);min-width:76px;text-align:right}
+
+/* entity page */
+.entity{max-width:var(--maxread)}
+.entity .kicker{font-family:var(--util);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);display:flex;gap:12px;align-items:center;margin:0 0 8px}
+.entity .kicker .tier{color:var(--gold)}
+.entity h1{font-family:var(--disp);font-weight:600;font-size:clamp(2rem,7vw,2.9rem);margin:0;line-height:1.1}
+.entity .pron{font-family:var(--util);font-size:.82rem;letter-spacing:.04em;color:var(--ash);margin:9px 0 0}
+.entity .pron b{color:var(--slate);font-weight:600}
+.entity .aka{color:var(--ash);font-style:italic;margin:6px 0 0}
+.essence{font-size:1.24rem;line-height:1.5;color:var(--bone);margin:18px 0 4px;max-width:56ch}
+.essence .xref{color:var(--gold)}
+
+section.sec{border-top:1px solid var(--ground-2);margin-top:14px}
+section.sec > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:16px 0 12px}
+section.sec > summary::-webkit-details-marker{display:none}
+section.sec > summary .h{font-family:var(--disp);font-size:1.24rem;color:var(--bone)}
+section.sec > summary .mk{margin-left:auto;color:var(--stone);font-family:var(--util);font-size:1.2rem;line-height:1;transition:transform .2s}
+section.sec[open] > summary .mk{transform:rotate(45deg)}
+section.sec .body{padding:0 0 18px}
+section.sec .body p{margin:0 0 14px}
+section.sec .body .xref{color:var(--gold)}
+
+.panel{border:1px solid var(--ground-3);border-radius:8px;margin:14px 0 0;overflow:hidden;background:var(--ground-2)}
+.panel > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:15px 18px}
+.panel > summary::-webkit-details-marker{display:none}
+.panel > summary .pl{font-family:var(--util);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase}
+.panel.beneath > summary .pl{color:var(--slate)}
+.panel.beyond > summary .pl{color:var(--gold)}
+.beat .panel{margin-top:10px}
+.panel.scene-stage > summary .pl{color:var(--ash)}
+.panel.scene-turns > summary .pl{color:var(--gold)}
+.panel > summary .pt{font-family:var(--disp);font-size:1.02rem;color:var(--ash)}
+.panel > summary .mk{margin-left:auto;color:var(--stone);font-family:var(--util);transition:transform .2s}
+.panel[open] > summary .mk{transform:rotate(45deg)}
+.panel .pbody{padding:2px 18px 18px}
+.panel .pbody p{margin:0 0 13px;font-size:.98rem}
+.panel .pbody p:last-child{margin-bottom:0}
+.panel .xref{color:var(--gold)}
+
+.rels{margin:26px 0 0}
+.rels h3{font-family:var(--util);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--stone);margin:0 0 12px}
+.rel{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--ground-2);cursor:pointer}
+.rel:hover .rname{color:var(--gold)}
+.rel .rname{font-family:var(--disp);font-size:1.04rem;min-width:38%}
+.rel .rlab{color:var(--ash);font-size:.9rem}
+
+.backbar{margin:0 0 18px}
+.backbtn{background:none;border:0;color:var(--ash);cursor:pointer;font-family:var(--util);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;padding:6px 0}
+.backbtn:hover{color:var(--gold)}
+
+.xref{color:var(--gold);text-decoration:none;border-bottom:1px dotted var(--gold-d);cursor:pointer;white-space:nowrap}
+.xref:hover{border-bottom-style:solid}
+.xref.broken{color:var(--oxblood);border-color:var(--oxblood)}
+
+/* popover */
+#pop{position:fixed;z-index:60;max-width:320px;width:calc(100vw - 32px);background:var(--ground-3);border:1px solid var(--gold-d);border-radius:9px;box-shadow:0 18px 50px rgba(0,0,0,.6);padding:15px 16px;display:none}
+#pop.show{display:block;animation:fade .16s ease both}
+#pop .pk{font-family:var(--util);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--stone);margin:0 0 4px}
+#pop .pn{font-family:var(--disp);font-size:1.16rem;margin:0 0 4px}
+#pop .ppron{font-family:var(--util);font-size:.72rem;letter-spacing:.03em;color:var(--slate);margin:0 0 8px}
+#pop .pe{color:var(--ash);font-size:.92rem;line-height:1.45;margin:0 0 12px}
+#pop .po{background:var(--gold);color:var(--ground);border:0;border-radius:5px;cursor:pointer;font-family:var(--util);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 14px}
+#pop .po:hover{background:var(--bone)}
+@media(max-width:560px){#pop{left:16px!important;right:16px;width:auto;bottom:16px!important;top:auto!important;max-width:none}}
+
+footer.foot{color:var(--stone);font-family:var(--util);font-size:.7rem;letter-spacing:.08em;text-align:center;padding:10px 0 40px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:2px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* --- opaque-ground guarantee (literal colors; must win everywhere) --- */
+html{background-color:#0f0e11 !important;color-scheme:dark}
+body{background-color:#0f0e11 !important;color:#e9e2d5 !important;}
+body::before{content:"";position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;background-color:#0f0e11;z-index:-1;pointer-events:none}
+header.top{background-color:rgba(15,14,17,.97) !important}
+main{background-color:transparent}
+#pop{background-color:#17151b !important}
+</style>
+</head>
+<body>
+<header class="top"><div class="row">
+  <button class="brand" onclick="go('#home')">OEDIPUS REX <b>&middot;</b> a companion</button>
+  <nav class="modes" id="modes"></nav>
+</div></header>
+<hr class="cross">
+<main><div class="wrap" id="view"></div></main>
+<hr class="cross">
+<footer class="foot">SOPHOCLES &middot; c. 429 BCE &middot; an offline companion, not the play itself</footer>
+<div id="pop" role="dialog" aria-label="Preview"></div>
+
+<script>
+"use strict";
+
+/* ================= DATA ================= */
+var THEMES = [
+  { id:"fate",      name:"Fate & the Oracle",   blurb:"A god's word spoken before he was born \u2014 that he would kill his father and marry his mother \u2014 and a life spent running straight into it." },
+  { id:"sight",     name:"Sight & Blindness",   blurb:"The seer is blind and sees; the king has eyes and sees nothing; the truth is only faced when the eyes are gone." },
+  { id:"pollution", name:"Plague & Pollution",  blurb:"A city rotting from a hidden crime, and the hunt for the source that turns, unbearably, back on the hunter." },
+  { id:"identity",  name:"Identity & Origin",   blurb:"The oldest question \u2014 who am I, whose child am I? \u2014 and the horror waiting in its answer." }
+];
+var TYPES = { character:"Character", concept:"Idea", place:"Place", object:"Object", chorus:"Chorus" };
+
+/* The Investigation (spine sample \u2014 the full clue-chain comes in the batch) */
+var CLUES = [
+  { n:"I", h:"The Plague", body:"A crowd of suppliants \u2014 old men, priests, children \u2014 sits at the palace altars with olive branches, and will not move. [[thebes|Thebes]] is dying. The [[the_priest|priest of Zeus]] speaks for them: the crops rot in the fields, the herds sicken, women labour and bring forth nothing living, and a god of fever walks the streets. The city, he says, is a ship going down with all aboard.\n\nThey have not come to a god. They have come to [[oedipus|Oedipus]] \u2014 the stranger who arrived years ago with nothing, answered the [[riddle|riddle]] that was strangling the city, and was made king for it. He saved them once. The priest asks him, plainly, to do it again.\n\nOedipus meets them already moving. He has wept for the city, he says, lain awake over it, and \u2014 before they even asked \u2014 sent his brother-in-law [[creon|Creon]] to the oracle at [[delphi|Delphi]] to ask what must be done. The man of action is ahead of the crisis. He has begun the investigation before he knows what it is.", stage:"The play begins in the middle of the crisis, the stage crowded with suppliants at the altars \u2014 an <em>in medias res</em> opening that hands the audience a mystery before a single fact. The [[the_priest|priest]] frames the city as a ship going down, the first sounding of the play's \u201cship of state\u201d imagery.", turns:"The detective form is set in the first minutes: a symptom without a cause, and a ruler who stakes everything on finding it. The irony is already loaded \u2014 the audience knows the answer the hunt will reach, and settles in to watch [[oedipus|Oedipus]] walk toward it." },
+  { n:"II", h:"The Oracle's Charge", body:"[[creon|Creon]] arrives crowned with laurel \u2014 a good sign \u2014 and asks whether he should speak in front of the crowd. Speak before them all, says [[oedipus|Oedipus]]; I grieve for these people more than for my own life. The line is true, and it will cost him everything.\n\nThe god's answer is precise. [[thebes|Thebes]] harbours a pollution, and the pollution is a man: the killer of the old king [[laius|Laius]], never hunted, never punished, still living on Theban ground. Drive him out or pay blood for blood, and the [[plague_pollution|plague]] lifts.\n\nOedipus wants details and gets almost none. Laius went to consult an oracle and never came home; he was killed on the road by robbers, they say; the one servant who escaped told a confused story. Why, Oedipus asks, was none of this pursued? Because the [[the_sphinx|Sphinx]] was at the gates, [[creon|Creon]] answers, and the city had no attention to spare for an old murder. So Oedipus takes the case himself \u2014 and swears, before the whole city, to find the man and cast him out.", stage:"[[apollo|Apollo]]'s word arrives by report, never in person \u2014 the god who drives the play stays offstage from first to last, present only as instruction and consequence. In a single scene the plague becomes a murder case, and the tragedy becomes an investigation.", turns:"The charge is the trap's jaws. Every vow [[oedipus|Oedipus]] makes to find and punish the killer is a vow made against himself, and the audience hears the second meaning under each line. The hunt for the source of [[plague_pollution|pollution]] is the play's whole engine." },
+  { n:"III", h:"The King's Curse", body:"Oedipus turns his vow into law, and the law into a curse. Whoever knows the killer must speak. Whoever shelters him is cut off from the city \u2014 no altar, no water, no word. And the murderer himself, whoever he is, is to be shunned by every citizen and driven out to wear away his life in misery, unbefriended and alone.\n\nThen he goes further than any oath required. Since he now holds the throne [[laius|Laius]] held, and the wife Laius held, he will fight for the dead king as though the dead man were his own father. The whole theatre hears the second meaning. He does not.\n\nHe presses for facts. Laius was killed where three roads meet, on the way to [[delphi|Delphi]], years ago. Of the party, one man escaped and came home \u2014 and asked, immediately, to be sent far away to herd sheep in the hills. Oedipus sends for him. He also sends, on the [[chorus|elders']] advice, for the one man who might see what no witness could: the blind prophet [[tiresias|Tiresias]].", stage:"The self-curse is <em>dramatic irony</em> in its purest form \u2014 a solemn oath whose true target is the speaker, understood by everyone in the theatre except the man swearing it. The Greek audience knew the story; the dread lies in watching the words land where the speaker cannot see.", turns:"This is the moment the hunter unknowingly condemns himself, and it fixes the play's terrible symmetry: to keep his oath, [[oedipus|Oedipus]] must destroy [[oedipus|Oedipus]]. His vow to avenge [[laius|Laius]] as if for his own father is truer than he will ever want it to be." },
+  { n:"IV", h:"The Seer's Accusation", body:"[[tiresias|Tiresias]] is led in by a boy, and wants only to go home again. He begs to be dismissed. He will not answer. Let me go, he says; bear your burden and I will bear mine. [[oedipus|Oedipus]] \u2014 who cannot understand a man refusing to help him save the city \u2014 accuses him first of indifference, then of complicity, then of the murder itself.\n\nStung, the old man breaks his silence, and the truth comes out of him like something torn loose. You are the polluted thing. You are the killer you are hunting. You are living in shame with the one closest to you and do not know it. He tells Oedipus that a father's and a mother's curse will drive him out of this land, that he who sees now will be blind, and that this day will give him his birth and destroy him.\n\nIt is the whole answer, spoken aloud in the first act \u2014 and [[oedipus|Oedipus]] throws it away. He hears a plot: [[creon|Creon]] wants the throne, and has bought a fraudulent seer to slander him. He mocks the prophet's blindness, and boasts that when the [[the_sphinx|Sphinx]] came it was not this famous seer who saved [[thebes|Thebes]] \u2014 it was Oedipus, who knew nothing and worked it out. The pride that saved the city refuses the truth about it.", stage:"The confrontation is an <em>agon</em>, a formal debate that sharpens into <em>stichomythia</em> \u2014 line traded for line like sword-strokes. It stages the play's [[sight_blindness|blindness-and-sight]] theme whole, in one scene: the blind man sees, the clear-eyed king does not.", turns:"The entire truth is spoken aloud in the first act \u2014 and refused. That refusal is the engine: not a mystery the hero cannot solve, but a truth he cannot yet bear to accept. His leap to suspect [[creon|Creon]] shows the [[hubris|pride]] that will carry him to the end." },
+  { n:"V", h:"Where Three Roads Meet", body:"The palace has become a war. [[creon|Creon]] comes to defend himself, [[oedipus|Oedipus]] threatens him with death, and [[jocasta|Jocasta]] comes out to stop two grown men from tearing each other apart over a prophet's riddle. When she hears what it is about, she tries to laugh it away with a piece of hard-won proof.\n\nNo mortal, she says, has any share in the art of prophecy \u2014 and she can prove it. An oracle once came to [[laius|Laius]] that he would be killed by his own son. And what happened? His son was destroyed \u2014 they pinned the infant's ankles and cast him out on a mountainside \u2014 and Laius was killed instead by foreign robbers, at a place where three roads meet. So much for prophecy.\n\nShe means it as comfort. She has just said the one word that matters. Where three roads meet. [[oedipus|Oedipus]] goes cold and asks her to say it again \u2014 where, exactly, and when, and what did [[laius|Laius]] look like. Tall, she says, greying, and in build not unlike your own. Every answer lands like a stone. He begins to be afraid, he says, that the blind prophet could see after all.", stage:"The reveal is built from an offhand remark, not a confession \u2014 the play's method throughout. Information arrives sideways, meaning to comfort, and detonates. Watch Sophocles plant the fatal word in a speech designed to dismiss the very fear it confirms.", turns:"The play's signature pattern, in a single beat: the clue meant to reassure is the clue that damns. [[jocasta|Jocasta]]'s scorn for prophecy hands [[oedipus|Oedipus]] the first hard link between himself and the murder he is hunting. The dread begins here and never lifts." },
+  { n:"VI", h:"The King's Own Story", body:"Now [[oedipus|Oedipus]] tells his own story, and hands the investigation the evidence it has been missing. He was raised a prince in [[corinth|Corinth]], son of [[polybus|Polybus]] and [[merope|Merope]]. At a banquet a drunk called him a bastard, no true son of his father. It ate at him. He went to [[delphi|Delphi]] to be told the truth about his birth \u2014 and the god did not answer that question. Instead it said the unspeakable thing: that he would lie with his mother and kill his father.\n\nSo he ran. He never went back to [[corinth|Corinth]] again, steering by the stars away from the place where such a thing could come true. And on the road, in the hill country, at a place where three roads met, an old man in a carriage with a herald and attendants tried to force him off the path. The driver struck him. Oedipus struck back, and in the fight he killed the old man and all his party \u2014 or so he believed.\n\nHe lays the two accounts side by side, and they match: the place, the time, the age of the man, the size of the party. If the old man he killed was [[laius|Laius]], then he is the murderer he has cursed with his own mouth, banished with his own edict, and hunted with his own hands. One thread of hope remains, and he holds it hard. The surviving servant said <em>robbers</em>, plural. One man is not many. Send for him, he says. Send for the [[shepherd|shepherd]].", stage:"The investigation turns inward: the detective interrogates himself, laying out his own history as evidence, until the suspect list narrows to one \u2014 the investigator. Sophocles keeps a thread of hope alive: the survivor once said \u201crobbers,\u201d plural, and the audience watches [[oedipus|Oedipus]] cling to a single word.", turns:"The hunt has found its man; only the proof is missing. [[oedipus|Oedipus]]'s [[knowledge|need to know]] now works against him \u2014 he could stop, and cannot. He calls for the one witness who can end his doubt, not yet grasping that certainty is the last thing he should want." },
+  { n:"VII", h:"The Corinthian's Good News", body:"Before the shepherd can come, a cheerful stranger arrives from [[corinth|Corinth]] with what he is certain is good news. [[polybus|Polybus]] is dead \u2014 of age, in his bed \u2014 and Corinth wants [[oedipus|Oedipus]] home as king.\n\n[[jocasta|Jocasta]] seizes on it in triumph: where are the oracles now? The father Oedipus was fated to kill has died of nothing but old age. Oedipus laughs with her \u2014 and then stops, because half the prophecy still stands. His mother [[merope|Merope]] is alive, and while she lives he cannot go home.\n\nThe [[corinthian|messenger]] hears the king's fear and cannot bear to leave a man frightened over nothing. He offers the kindest fact he has: you need not fear her, because [[polybus|Polybus]] and [[merope|Merope]] were never your parents. I know, because I gave you to them myself. I was a herdsman on [[cithaeron|Cithaeron]], and I took you \u2014 an infant with his ankles pinned together \u2014 from another shepherd, a servant of [[laius|Laius]], and carried you down the mountain as a gift. The one man who could confirm it, he adds, is that shepherd. It is the same man [[oedipus|Oedipus]] has already sent for.", stage:"The scene is built on a cruel structure of relief-then-ruin: the good news that seems to free him is the very thread that unravels everything. The [[corinthian|Corinthian]]'s only motive is kindness, which makes the [[fate_freewill|machinery]] feel less like a curse than like the ordinary, terrible workings of chance.", turns:"The trap springs. The one fact that lifts a prophecy delivers the other, and the foundling detail opens the last door. [[oedipus|Oedipus]]'s relief curdles in real time \u2014 the play's engine, the reassurance that damns, running now at full power." },
+  { n:"VIII", h:"The Queen Sees First", body:"[[jocasta|Jocasta]] understands. Not gradually \u2014 all at once, standing there, while her husband is still cross-examining a messenger about a mountain. She knows whose child was pinned and cast out on [[cithaeron|Cithaeron]]. She knows who is standing in front of her.\n\nShe begs him to stop. For the love of the gods, she says, if you care for your own life, do not search this out. Let it be enough that I am sick with it. He mistakes her entirely: she is ashamed, he decides, that her husband may turn out to be lowborn, a slave's child, no fit match for a queen. He tells her he does not care \u2014 he will call himself a child of Fortune and be proud of it. Nothing she says can turn him.\n\nHer last words to him are not an argument. Unhappy man, she says \u2014 may you never learn who you are. Then she goes into the palace without another word, and the doors close behind her. The [[chorus|elders]] feel the silence and are afraid of it. [[oedipus|Oedipus]], alone now with the thing he has hunted all his life, calls for the last witness.", stage:"Her exit is one of the great silent departures in tragedy \u2014 no speech, only the withdrawal, which the audience reads exactly. Her death, like every death here, happens offstage and will reach us through a [[second_messenger|messenger]]. The scene splits the knowing between them: she has it, he almost does.", turns:"The case is solved a step before the hero solves it, and by the person with the most to lose. [[jocasta|Jocasta]]'s last effort is to stop the knowing \u2014 to leave the truth unspoken so that it might not be true. [[oedipus|Oedipus]], mistaking her horror for shame at his birth, presses on. Their paths part here for good." },
+  { n:"IX", h:"The Recognition", body:"The [[shepherd|shepherd]] is brought in old and unwilling, and he knows the [[corinthian|Corinthian]] at once, and would rather die than say so. He evades. He pleads. [[oedipus|Oedipus]], past all mercy now, has his arms twisted until he speaks.\n\nYes \u2014 there was a child. Yes \u2014 it came from the house of [[laius|Laius]]. It was [[jocasta|Jocasta]] herself who put it in his hands, because of a prophecy that the boy would kill his father. He was told to destroy it on the mountain. He could not. He pitied it, and gave it away to a stranger from another country, thinking it would be carried far off and never heard of again. And if you are that child, he says, then you were born to misery.\n\nEverything closes. The old man at the [[crossroads|crossroads]] was his father. The queen in his bed is his mother. The infant left to die on the mountain was himself. He is the pollution he swore to drive from the city, the murderer he cursed with his own mouth, the answer to his own investigation. He cries out that the light must never look on him again, and goes inside \u2014 where he finds [[jocasta|Jocasta]] dead by her own hand, and takes the golden pins from her dress, and drives them into his eyes.\n\nHe does not kill himself. He asks to be cast out of [[thebes|Thebes]], as he himself decreed the killer must be, and begs to be sent to die on [[cithaeron|Cithaeron]] \u2014 the mountain that should have taken him at the beginning. The detective has found his man. The hunt ends where it started: on him.", stage:"The <em>anagnorisis</em> \u2014 the recognition \u2014 and the <em>peripeteia</em> \u2014 the reversal \u2014 fall in the same stroke, which is exactly why Aristotle held this play up as the model tragedy. The catastrophe itself is not shown: a [[second_messenger|messenger]] carries it out in words, and the blinded king returns in a changed mask.", turns:"Every thread meets at one point, and the point is [[oedipus|Oedipus]]. He chooses [[sight_blindness|blindness]] now that he has seen \u2014 ending the eyes that looked too late. The play closes on its unanswered question: was this fate, or the working-out of his own nature \u2014 and would knowing sooner have changed anything at all?" }
+];
+
+var ENTITIES = [
+
+{ id:"oedipus", name:"Oedipus", type:"character", tier:"major", pron:"ED-ih-pus", themes:["fate", "sight", "identity", "pollution"], essence:"The king who vows to hunt down the killer polluting his city, and step by step uncovers that the murderer he seeks is himself \u2014 and worse.", sections:[
+      { h:"The Solver of Riddles", body:"Oedipus is not [[thebes|Thebes]]' native son but its rescuer. A stranger passing through, he answered the [[riddle|riddle of the Sphinx]] when no one else could, freed the city from the monster, and was rewarded with the empty throne and the hand of the widowed queen, [[jocasta|Jocasta]]. Quick, fearless, and loved, he is the man who solves what others cannot \u2014 which is exactly the trap the play sets for him." },
+      { h:"The Hunt", body:"When plague falls on the city, the [[oracle_prophecy|oracle]] demands the killer of the old king [[laius|Laius]] be found and cast out. Oedipus throws his whole nature into the search: he curses the unknown murderer, calls in the prophet [[tiresias|Tiresias]], and drives forward past every warning \u2014 the seer's, [[jocasta|Jocasta]]'s, his own rising dread \u2014 unable, once started, to stop hunting." },
+      { h:"Where Three Roads Meet", body:"The clues gather toward a single memory. Years before, fleeing an oracle that said he would kill his father and marry his mother, Oedipus had left [[corinth|Corinth]] and the parents he thought were his. On the road, at a place where three roads met, he had quarrelled with an old man and killed him. [[jocasta|Jocasta]]'s account of how [[laius|Laius]] died matches it exactly \u2014 and the ground begins to open." },
+      { h:"The Truth", body:"The last witnesses complete it. The man he killed at the [[crossroads|crossroads]] was his father; the wife in his bed is his mother; the infant once left to die on the mountain was himself. He is the pollution he swore to drive out. [[jocasta|Jocasta]] takes her own life; Oedipus puts out his eyes and asks only to be cast from the city. The solver of every riddle never saw the one answer that was himself." },
+      { h:"Before the Play: The Child on the Mountain", body:"Everything the play uncovers happened long before it starts.\n\nKing [[laius|Laius]] of [[thebes|Thebes]] was warned by the [[oracle_prophecy|oracle]] that his own son would kill him. So when [[jocasta|Jocasta]] bore a boy, they pinned his ankles together with a spike and gave him to a [[shepherd|servant]] to leave on [[cithaeron|Cithaeron]], the mountain where the city put out its unwanted children to die.\n\nThe shepherd could not do it. He handed the baby to a herdsman from [[corinth|Corinth]] over the hills, who carried him home. The childless king and queen of Corinth, [[polybus|Polybus]] and [[merope|Merope]], raised him as their own and told him nothing. They called him Oedipus \u2014 <em>swollen-foot</em> \u2014 for the scars on his ankles, and he grew up a prince without ever asking why he had a name like a wound.\n\nSo when the god later told a young man that he would kill his father and marry his mother, that young man knew exactly whose son he was, and ran in exactly the wrong direction." }
+    ], beneath:"<p>The play's engine is a terrible circularity: every action Oedipus takes to escape the prophecy is the action that fulfills it. He leaves [[corinth|Corinth]] to avoid killing his father \u2014 and so meets his true father a stranger on the road. That is the heart of the [[fate_freewill|fate-and-freedom]] question the play refuses to resolve: is he doomed, or the author of his own ruin, or somehow both at once?</p><p>He is also the supreme case of [[sight_blindness|sight and blindness]]. He reads the riddle of Man and is blind to himself; he mocks the blind [[tiresias|Tiresias]] and then, seeing at last, destroys the eyes that would not see. Aristotle built his whole theory of tragedy on this play \u2014 the good man of high standing undone not by vice but by error, the reversal and recognition falling in the same stroke.</p>", beyond:"<p>Sophocles compresses the detective's work into a single day and a single place \u2014 the reveal machinery so tight that Aristotle held it up as the model tragedy. The violence stays offstage, reported by a messenger; the blinded king returns in a changed mask, and the horror lives in language rather than spectacle.</p><p>The Greek title calls him <em>Tyrannos</em> \u2014 ruler by merit, not by birth \u2014 which is its own bitter irony for a man who turns out to be the rightful heir after all. In the modern imagination he is inseparable from Freud, who borrowed the name for a universal desire; it is worth remembering that the play is not about a secret wish but about a man who did everything right and was annihilated anyway.</p><p>A word about Freud, because it distorts everything for modern readers. He borrowed the name for a theory about a universal childhood desire \u2014 and the play is not that. Oedipus has no wish to marry his mother; he does not know she is his mother, and he spent his youth fleeing across the world to avoid exactly that. The horror is not desire but ignorance. He is a man who did everything right, with good information and good intentions, and was destroyed anyway. Reading the play as a case study of secret longing is reading past the thing that makes it terrifying.</p>", rels:[
+      { id:"jocasta", label:"his wife, and his mother" },
+      { id:"laius", label:"the father he killed" },
+      { id:"creon", label:"his brother-in-law" },
+      { id:"tiresias", label:"the seer who knew" },
+      { id:"crossroads", label:"where he met his father" },
+      { id:"riddle", label:"which he alone solved" },
+      { id:"oracle_prophecy", label:"which he fulfilled by fleeing it" },
+      { id:"thebes", label:"the city he saved and doomed" },
+      { id:"apollo", label:"the god he blames" },
+      { id:"hubris", label:"the pride that drives him" },
+      { id:"knowledge", label:"the truth he will not stop seeking" },
+      { id:"the_children", label:"his daughters, and his sisters" },
+      { id:"oracles_world", label:"the word he fled" },
+      { id:"plague_athens", label:"the pollution he is" },
+      { id:"aristotle", label:"who made him the model" },
+      { id:"sophocles", label:"who wrote him" },
+      { id:"exposure", label:"how he was meant to die" }
+    ] },
+
+{ id:"jocasta", name:"Jocasta", type:"character", tier:"major", pron:"joh-KAS-tuh", themes:["fate", "sight", "identity"], essence:"Thebes' queen, wife to Oedipus and \u2014 unknown to them both \u2014 his mother; the first to grasp the truth, and the first it destroys.", rels:[
+      { id:"oedipus", label:"her husband, and her son" },
+      { id:"laius", label:"her first husband" },
+      { id:"creon", label:"her brother" },
+      { id:"oracle_prophecy", label:"the word she tried to outrun" },
+      { id:"second_messenger", label:"who reports her death" },
+      { id:"the_children", label:"her daughters" },
+      { id:"knowledge", label:"which she begs him not to seek" },
+      { id:"exposure", label:"what she did to her son" },
+      { id:"oracles_world", label:"which she scorns" }
+    ], sections:[
+      { h:"The Queen Twice Married", body:"Jocasta is the calm center of the palace: widow of the old king [[laius|Laius]], now wife of [[oedipus|Oedipus]] the riddle-solver, and sister of [[creon|Creon]]. She has weathered one loss and built a second life, and she speaks with the ease of a woman who believes the worst is behind her." },
+      { h:"The Comfort That Kills", body:"To soothe her husband's fear of the prophet, she scorns oracles outright: [[laius|Laius]] was killed by robbers at a [[crossroads|crossroads]], she says, and as for prophecies, she and Laius once had a child exposed to die precisely to prevent one. Every reassurance draws the noose tighter. She sees where it leads before [[oedipus|Oedipus]] does." },
+      { h:"The Silence", body:"When the truth is one question away, she begs him to stop \u2014 for the love of the gods, ask no more. He presses on, thinking her ashamed of his low birth. She goes into the palace without another word, and takes her own life. Her last act is an attempt to stop the knowing." },
+      { h:"What She Did to a Baby", body:"It is easy to forget, while she is being kind to her husband, what she has done. She and [[laius|Laius]] took a newborn, drove a spike through his ankles, and handed him to a servant to leave on a mountainside for the animals \u2014 to beat a prophecy.\n\nShe tells the story herself, in passing, as evidence that oracles are worthless: a prophecy said our son would kill his father, she says, and we destroyed the child, and Laius was killed by robbers instead. She says it lightly. She is trying to comfort her husband.\n\nIt is the most chilling speech in the play, and she does not know it. Everything she offers as proof that the gods are wrong is, in fact, the proof that they were right \u2014 and the man she is comforting is the baby." }
+    ], beneath:"<p>Jocasta is the play's rationalist, and it destroys her through the very oracle she mocks. She tried to defeat prophecy twice \u2014 once by exposing her infant, once by disbelief \u2014 and both defenses fail in the same instant. The horror of her double role, wife and mother to the same man, is the play's deepest wound, and the play lets her grasp it a scene before [[oedipus|Oedipus]] does, so that she carries the knowledge alone and silently to her death.</p><p>Is she victim, or complicit in the old attempt to kill her child? The play holds both. Like the silent queen of other tragedies, she is the woman the catastrophe erases early \u2014 her death offstage, reported, the household cost of the public unravelling.</p><p>She is also the play's most sympathetic account of how people survive impossible facts: by not looking. Her scorn for prophecy is a psychological necessity, not a philosophy. She needs oracles to be false, because if they are true she is a woman who tried to murder her son and is now sleeping with him. Her disbelief is the load-bearing wall of her whole life \u2014 and the play knocks it out in a single scene.</p>", beyond:"<p>Jocasta is the emotional pivot of the reveal, and the scene of her dawning understanding is a masterclass in dramatic irony \u2014 the audience watching her realize what the hero still hunts. Her death, like every death in Greek tragedy, happens out of sight and reaches us through a [[second_messenger|messenger]].</p><p>Freud's borrowing fixed her forever as the mother in a theory about sons, which has tended to flatten her; modern readings work to restore her as a tragic agent in her own right \u2014 the intelligent skeptic undone by the one thing she refused to believe.</p>" },
+
+{ id:"creon", name:"Creon", type:"character", tier:"major", pron:"KREE-on", themes:["pollution", "fate"], essence:"Oedipus's brother-in-law, a measured man who carries the oracle's word from Delphi and, wrongly accused of treason, keeps his head while the king loses his.", rels:[
+      { id:"oedipus", label:"the king who suspects him" },
+      { id:"jocasta", label:"his sister" },
+      { id:"delphi", label:"whose word he brings" }
+    ], sections:[
+      { h:"The Measured Man", body:"Creon enters as the voice of due process: he has been to [[delphi|Delphi]] and brings back the god's instructions, no more, no less. He is content to share in power without craving the throne, and he answers the plague with procedure rather than passion \u2014 the temperate foil to the king's fire." },
+      { h:"Wrongly Accused", body:"As [[oedipus|Oedipus]] spirals, he fixes on a theory: [[creon|Creon]] and the prophet [[tiresias|Tiresias]] are conspiring to take the crown. Creon defends himself with cool logic \u2014 why would any sane man want the terrors of kingship when he already enjoys its comforts without its risks? He keeps his head precisely as the king loses his." },
+      { h:"The Man Left Standing", body:"At the end, power falls to him anyway, and he takes it with restraint \u2014 neither gloating over [[oedipus|Oedipus]] nor cruel, granting the ruined king what dignity remains and reminding him he no longer commands. He is the steady figure the storm leaves upright." },
+      { h:"The Last Word", body:"He inherits the wreckage, and the play's final movement is his. [[oedipus|Oedipus]], blind and ruined, wants three things: to be cast out of the city at once, to be sent to die on [[cithaeron|Cithaeron]], and to hold his daughters one more time.\n\nCreon gives him the daughters and refuses the rest \u2014 not out of cruelty, but because he will not act without consulting the god first. It is the most in-character thing anyone does in the play: the measured man, at the end, still doing it by the book.\n\nAnd he says the hard, quiet line that closes the whole tragedy off: do not seek to be master in everything, for the things you mastered did not follow you through life." }
+    ], beneath:"<p>Creon is moderation itself \u2014 the reasonable man set against the tragic overreacher, and a reminder that the crown he does not want will find him regardless. There is a darker irony for anyone who knows what comes next in the Theban story: this measured, patient Creon becomes, a generation later, the rigid tyrant who will not bend. Same man, opposite failing \u2014 a quiet lesson in what power does to a person once it is his to keep.</p>", beyond:"<p>His scene with [[oedipus|Oedipus]] is a formal debate, an <em>agon</em>, and directors must decide how to play him \u2014 as transparently innocent, or with a flicker of the ambition the later play will realize. That \u201ctwo Creons\u201d problem, the same figure across two of Sophocles' plays, is a standing question for scholars and stagings alike, and part of why the character rewards attention.</p>" },
+
+{ id:"tiresias", name:"Tiresias", type:"character", tier:"major", pron:"ty-REE-see-us", themes:["sight", "fate"], essence:"The blind prophet who already knows the whole terrible truth \u2014 and whom Oedipus, sure he sees clearly, cannot believe.", rels:[
+      { id:"oedipus", label:"the king he warns" },
+      { id:"sight_blindness", label:"the irony he embodies" },
+      { id:"oracle_prophecy", label:"the god's truth he reads" },
+      { id:"apollo", label:"whose word he speaks" },
+      { id:"hubris", label:"the king's rage he meets" },
+      { id:"oracles_world", label:"the god he reads" },
+      { id:"greek_theatre", label:"blindness on a masked stage" }
+    ], sections:[
+      { h:"The Blind Seer", body:"Tiresias is the sightless prophet of [[thebes|Thebes]], led in by a boy, reluctant to speak. He sees nothing and knows everything \u2014 and the moment he appears, the play's long game of [[sight_blindness|sight and blindness]] comes to its point." },
+      { h:"The Truth Refused", body:"Goaded past endurance by the king's insults, he says the unbearable thing outright: you are the killer you hunt; you are the pollution on the land; you live in shame with those closest to you. [[oedipus|Oedipus]], certain of his own clear sight, hears only malice and a plot with [[creon|Creon]]. The whole truth is spoken in the first act \u2014 and thrown away." },
+      { h:"The Scene That Contains the Play", body:"He arrives already knowing everything, and everything about the scene is unbearable in hindsight.\n\nHe begs to be let go. [[oedipus|Oedipus]] presses, then insults him, then accuses him of the murder, then of conspiring with [[creon|Creon]] to steal the throne \u2014 and mocks him for being blind and useless, boasting that when the [[the_sphinx|Sphinx]] was killing Thebans it was not the great seer who saved them but Oedipus, who knew nothing and simply thought it out.\n\nSo the old man tells him. You are the killer. You are living in a shameful union with the person nearest you. And then, going, he leaves a riddle of his own, which is a description: he is a Theban, this man you seek; he will go from seeing to blind, from rich to a beggar, feeling his way with a stick into a foreign land; and he will be found to be brother and father to his own children, son and husband to his own mother." }
+    ], beneath:"<p>Tiresias holds the play's master-irony in a single body: the blind man sees, the clear-eyed king is blind. His scene stages the entire theme at once, and the tragic pattern that governs it \u2014 prophecy spoken, prophecy refused. He knows the end at the beginning; [[oedipus|Oedipus]]'s whole tragedy is the distance he must travel to arrive where the blind man already stands.</p>", beyond:"<p>Tiresias is the recurring seer of the Theban story, the same prophet who will confront [[creon|Creon]] a generation on. Myth gave him a strange history \u2014 a spell of life as a woman, blinded by a goddess and granted prophecy in recompense \u2014 and his blindness-that-sees drew later writers irresistibly; he walks, centuries later, into the middle of Eliot's <em>The Waste Land</em> as its seeing eye.</p>" },
+
+{ id:"chorus", name:"The Chorus of Theban Elders", type:"chorus", tier:"major", themes:["pollution", "fate"], essence:"The old men of Thebes, praying against the plague and watching, with mounting horror, their saviour-king become the thing he hunts.", rels:[
+      { id:"thebes", label:"the city they speak for" },
+      { id:"oedipus", label:"the king they follow" },
+      { id:"plague_pollution", label:"the sickness they suffer" },
+      { id:"second_messenger", label:"who brings them the end" },
+      { id:"greek_theatre", label:"the dancing-floor they filled" },
+      { id:"dionysia", label:"the festival they sang at" }
+    ], sections:[
+      { h:"The City's Voice", body:"The chorus is the council of Theban elders \u2014 they pray against the plague, counsel the king, and give voice to a city's dread as its saviour slowly falls under suspicion. Loyal to [[oedipus|Oedipus]], they follow his descent with mounting unease, and their sympathy shifts as the ground shifts under him." },
+      { h:"What They Sing", body:"Their odes carry the play's reflection: the opening prayer to the gods against the sickness; a troubled song on pride and the fate of tyrants; a startling ode fearing that if the oracles prove false, the worship of the gods itself will collapse; and the final lament \u2014 count no mortal happy until he has passed the last day free of pain." }
+    ], beneath:"<p>The chorus voices the ordinary citizen's wisdom \u2014 pious, cautious, proverbial. One of their odes is almost theological in its fear: if the god's word about [[oedipus|Oedipus]] fails to come true, then prophecy is empty and the whole order of heaven falls. They would rather the terrible truth than a world without the gods. Their closing line \u2014 call no one fortunate until the end \u2014 became one of the most quoted sentences in Greek literature.</p>", beyond:"<p>A Greek chorus was song and dance together, up to fifteen performers wheeling through the round <em>orchestra</em> to music now wholly lost. Some read the second stasimon's warning against tyranny and impiety as a message aimed at Sophocles' own Athens. On the modern stage a chorus is the hardest thing to stage \u2014 spoken, split, or reinvented, because nothing in our theatre answers to a city singing at itself.</p>" },
+
+{ id:"the_priest", name:"The Priest of Zeus", type:"character", tier:"supporting", themes:["pollution"], essence:"The priest who opens the play, speaking for a city on its knees before the plague and appealing to Oedipus as its one hope.", rels:[
+      { id:"oedipus", label:"whom he beseeches" },
+      { id:"thebes", label:"the suffering city" },
+      { id:"plague_pollution", label:"the affliction he describes" }
+    ], sections:[
+      { h:"The Voice of the Suffering City", body:"The priest of Zeus opens the play at the head of a crowd of suppliants, describing a [[thebes|Thebes]] laid waste \u2014 the fields barren, the herds dying, women unable to bring life to term, the city a ship going down. He appeals to [[oedipus|Oedipus]] not as a god but as the one man who once saved them, and might again." }
+    ], beyond:"<p>The play opens in the middle of a crisis, on a stage full of suppliants clutching olive branches at the altars \u2014 an image of a whole city on its knees. The priest is the human face of the [[plague_pollution|plague]], and it is here that the play's recurring \u201cship of state\u201d imagery is first sounded.</p>" },
+
+{ id:"corinthian", name:"The Corinthian Messenger", type:"character", tier:"supporting", themes:["identity", "fate"], essence:"A messenger from Corinth whose glad news \u2014 that Oedipus is free of one prophecy \u2014 unknowingly springs the trap of another.", rels:[
+      { id:"oedipus", label:"whom he means to reassure" },
+      { id:"cithaeron", label:"where he once took an infant" },
+      { id:"polybus", label:"whose death he reports" },
+      { id:"merope", label:"the queen he names" }
+    ], sections:[
+      { h:"The Bearer of Fatal Good News", body:"A cheerful messenger arrives from [[corinth|Corinth]] with what he takes to be joy: old king [[polybus|Polybus]] is dead of natural causes, and [[oedipus|Oedipus]] is called home to rule. Meaning only to lift the king's remaining fear, he adds one detail too many \u2014 that Oedipus was a foundling he himself received as an infant on [[cithaeron|Cithaeron]] \u2014 and springs the trap." }
+    ], beneath:"<p>The Corinthian is the irony engine made flesh: a man whose only aim is to please, who brings ruin by trying to give comfort. The play's catastrophe is driven as much by kindness and chance as by any curse \u2014 a stranger's good will, offered at the worst possible moment, completing what the gods began.</p>" },
+
+{ id:"shepherd", name:"The Shepherd", type:"character", tier:"supporting", themes:["identity", "fate"], essence:"The old herdsman who once spared a doomed infant and later witnessed a king's murder \u2014 the last witness, holding the final piece.", rels:[
+      { id:"oedipus", label:"the child he spared" },
+      { id:"laius", label:"the king he served" },
+      { id:"cithaeron", label:"where he gave the child away" },
+      { id:"exposure", label:"which he could not carry out" }
+    ], sections:[
+      { h:"The Last Witness", body:"The old herdsman holds two secrets at once. Long ago he was handed [[laius|Laius]] and [[jocasta|Jocasta]]'s doomed infant to leave on the mountain \u2014 and pitied him, and passed him on to live. He was also the lone survivor of the killing at the [[crossroads|crossroads]]. Dragged back now, he dreads what he knows; forced, he confirms it all." },
+      { h:"The Man Who Would Not Kill a Baby", body:"He is the last witness, and he is dragged in old, frightened, and desperate to say nothing at all.\n\nHe knows the [[corinthian|Corinthian]] the moment he sees him. He evades. He denies. He pleads with [[oedipus|Oedipus]] to stop asking. And when they twist his arms behind him he gives it up: yes, there was a child; yes, it came from the house of [[laius|Laius]]; yes, it was [[jocasta|Jocasta]] who put it into his hands, because of a prophecy that it would kill its father; yes, he was told to destroy it.\n\nAnd he did not. I pitied it, he says. I thought he would take it away to another country. And so I gave it to him \u2014 and if you are that child, master, then you were born to a terrible fate." }
+    ], beneath:"<p>The shepherd is the reluctant witness on whom everything hangs, and his story turns on a single act of pity: his mercy to the baby is the reason the prophecy could come true at all. In him the play sets one small, decent human choice against the vast machinery of fate \u2014 and shows how the two are, unbearably, the same thread.</p>" },
+
+{ id:"laius", name:"Laius", type:"character", tier:"supporting", pron:"LY-us", themes:["fate", "identity"], essence:"The former king of Thebes, killed at a crossroads by a stranger who was his own son \u2014 the murder whose pollution sets the play in motion.", rels:[
+      { id:"oedipus", label:"his killer, and his son" },
+      { id:"jocasta", label:"his wife" },
+      { id:"crossroads", label:"where he died" },
+      { id:"exposure", label:"which he ordered" },
+      { id:"oracles_world", label:"the warning he fled" }
+    ], sections:[
+      { h:"The King at the Crossroads", body:"Laius was king of [[thebes|Thebes]] and husband of [[jocasta|Jocasta]]. Warned by the [[oracle_prophecy|oracle]] that his own son would kill him, he had the infant's feet pinned and gave him to be exposed. Years later, on the road, he was killed in a quarrel by a young stranger at a place where three roads met \u2014 the son he thought he had destroyed. His unavenged murder is the pollution that starts the play." }
+    ], beyond:"<p>Laius's story frames the whole trilogy, and his attempt to cheat prophecy is what created the man who fulfilled it. The very name <em>Oedipus</em> \u2014 \u201cswollen-foot\u201d \u2014 is a scar from Laius's hand, the mark of the pierced ankles by which the exposed child was later known.</p>" },
+
+{ id:"crossroads", name:"Where Three Roads Meet", type:"place", tier:"supporting", themes:["fate"], essence:"The junction where Oedipus killed a stranger years ago \u2014 the fatal meeting-point of the play, and its emblem of a fate no road could avoid.", rels:[
+      { id:"oedipus", label:"who killed here" },
+      { id:"laius", label:"who died here" }
+    ], sections:[
+      { h:"Where Three Roads Meet", body:"The junction lies in the hill-country of Phocis, where the roads from [[thebes|Thebes]], [[delphi|Delphi]], and Daulis converge. There a younger [[oedipus|Oedipus]], himself fleeing an oracle, quarrelled with an old man over the right of way and killed him and his party \u2014 the old man his father. The play returns to this spot again and again." }
+    ], beneath:"<p>The crossroads is the play's emblem of fate and choice at once \u2014 the single point where every road bends toward the same end. Its horror is its ordinariness: a roadside quarrel over who yields, the kind of thing that happens and is forgotten, here fulfilling a prophecy spoken before the killer was born. It is the image the whole companion takes its mark from.</p>" },
+
+{ id:"thebes", name:"Thebes", type:"place", tier:"supporting", themes:["pollution"], essence:"The city Oedipus once saved from the Sphinx, now dying of a plague whose cause, unknown to it, is its own king.", rels:[
+      { id:"oedipus", label:"its king" },
+      { id:"plague_pollution", label:"the sickness upon it" },
+      { id:"the_sphinx", label:"the monster it was freed from" }
+    ], sections:[
+      { h:"The City Twice Saved, Twice Cursed", body:"[[thebes|Thebes]] was strangled by the [[the_sphinx|Sphinx]] until [[oedipus|Oedipus]] freed it, and it made him king in gratitude. Now it is dying again, of a plague it cannot explain, and the whole action turns on a bitter symmetry: the city's health depends on the ruin of the very man who saved it." }
+    ], beyond:"<p>Thebes is Greek tragedy's favourite cursed city \u2014 the stage for Oedipus, for Antigone, for the frenzy of the <em>Bacchae</em>. The plague that opens the play may have struck home hard: Sophocles' first audience had just lived through a real and devastating plague in Athens, and the parallel would not have been lost on them.</p>" },
+
+{ id:"delphi", name:"Delphi", type:"place", tier:"minor", pron:"DEL-fy", themes:["fate"], essence:"The shrine of Apollo whose oracle sets the hunt in motion and whose word no one in the play escapes.", rels:[
+      { id:"oracle_prophecy", label:"the word it gives" },
+      { id:"creon", label:"who consults it" },
+      { id:"apollo", label:"whose shrine it is" },
+      { id:"oracles_world", label:"how it worked" }
+    ], sections:[
+      { h:"The Navel of the World", body:"Delphi was the holiest oracle of the Greek world, the shrine of [[apollo|Apollo]] where a priestess spoke the god's word. From here [[creon|Creon]] carries the command that opens the hunt, and here, years before, [[oedipus|Oedipus]] once heard the prophecy that sent him running \u2014 straight toward it." }
+    ] },
+
+{ id:"corinth", name:"Corinth", type:"place", tier:"minor", pron:"KOR-inth", themes:["identity"], essence:"The city where Oedipus was raised as a prince, and which he fled to escape a prophecy \u2014 not knowing it was never his true home.", rels:[
+      { id:"oedipus", label:"who was raised here" },
+      { id:"corinthian", label:"whose messenger comes from here" },
+      { id:"polybus", label:"its king" },
+      { id:"merope", label:"its queen" }
+    ], sections:[
+      { h:"The False Home", body:"Corinth is where [[oedipus|Oedipus]] grew up a prince, the son \u2014 as he believed \u2014 of king [[polybus|Polybus]] and queen [[merope|Merope]]. He fled it to outrun the [[oracle_prophecy|oracle]], never dreaming his true home lay ahead of him in [[thebes|Thebes]]." }
+    ] },
+
+{ id:"cithaeron", name:"Mount Cithaeron", type:"place", tier:"supporting", pron:"sih-THEER-on", themes:["identity", "fate"], essence:"The mountain where the infant Oedipus was left exposed to die \u2014 and, spared, was passed to a life that circled back to its beginning.", rels:[
+      { id:"oedipus", label:"the child left here" },
+      { id:"shepherd", label:"who bore the child away" },
+      { id:"exposure", label:"the practice it served" }
+    ], sections:[
+      { h:"The Mountain of the Exposed Child", body:"[[cithaeron|Cithaeron]] is the wild mountain where the infant [[oedipus|Oedipus]] was carried to die, and where a [[shepherd|shepherd]]'s pity spared him instead. It is where the whole circle began \u2014 and, at the end, the place the blinded king begs to be sent, to finish on the mountain that should have taken him at the start." }
+    ], beneath:"<p>Cithaeron is the edge of the human world, the wilderness where a city left its unwanted children for the gods to take. The play's cruelest irony lives here: the mercy shown on this mountain is exactly what set the tragedy in motion. It bookends Oedipus's life \u2014 the place he should have died an infant, and the place he longs to die a ruined man.</p>" },
+
+{ id:"oracle_prophecy", name:"The Oracle", type:"concept", tier:"supporting", themes:["fate"], essence:"The word of the god at Delphi \u2014 that Oedipus would kill his father and marry his mother \u2014 which everyone flees and no one escapes.", rels:[
+      { id:"oedipus", label:"its subject" },
+      { id:"jocasta", label:"who tried to defeat it" },
+      { id:"laius", label:"who tried to defeat it first" },
+      { id:"delphi", label:"where it is spoken" },
+      { id:"apollo", label:"whose word it is" }
+    ], sections:[
+      { h:"The Word No One Escapes", body:"The oracle of [[apollo|Apollo]] at [[delphi|Delphi]] speaks twice into this story: to [[laius|Laius]], that his son would kill him; to [[oedipus|Oedipus]], that he would kill his father and marry his mother. Each man flees the word with all his strength, and each flight is the road by which the word comes true." }
+    ], beneath:"<p>The oracle is the machinery of the play's fate, and it works in a peculiar way. In Greek thought prophecy describes what will happen; it does not obviously compel it \u2014 yet no one escapes. The unbearable question the play leaves open is whether knowing the future changes anything at all, or whether the knowledge is simply one more road to the same place.</p>" },
+
+{ id:"sight_blindness", name:"Sight & Blindness", type:"concept", tier:"supporting", themes:["sight"], essence:"The play's master irony: the seer is blind, the clear-eyed king is blind to himself, and the truth is only faced once the eyes are gone.", rels:[
+      { id:"oedipus", label:"sighted, yet blind" },
+      { id:"tiresias", label:"blind, yet he sees" },
+      { id:"greek_theatre", label:"the mask that makes it literal" }
+    ], sections:[
+      { h:"Eyes and Insight", body:"The play's controlling metaphor runs through everyone: the blind [[tiresias|Tiresias]] sees the truth plainly; the clear-eyed [[oedipus|Oedipus]] cannot see what he has done; and at the end, seeing everything at last, he destroys his own eyes \u2014 choosing darkness now that he has looked on what no one could bear." }
+    ], beneath:"<p>Why does he blind himself rather than die? He says he could not bear to meet his dead parents' eyes, nor look on children born of such a marriage \u2014 and that there was nothing left worth seeing. Insight, the play insists, is not eyesight; the truth came only when the seeing was of no use, and so he ends the seeing. The metaphor reaches across all the Theban plays, but here it is the whole architecture.</p>" },
+
+{ id:"plague_pollution", name:"The Plague", type:"concept", tier:"supporting", themes:["pollution"], essence:"The sickness rotting Thebes \u2014 the contagion of an unavenged murder \u2014 which drives the hunt for its hidden source.", rels:[
+      { id:"thebes", label:"the city it wastes" },
+      { id:"oedipus", label:"its unknown cause" },
+      { id:"oracle_prophecy", label:"which names its cure" },
+      { id:"apollo", label:"who sends and lifts it" },
+      { id:"plague_athens", label:"what pollution meant" },
+      { id:"dionysia", label:"the plague Athens had just survived" }
+    ], sections:[
+      { h:"The Sickness with a Cause", body:"The plague on [[thebes|Thebes]] is <em>miasma</em> \u2014 the pollution of an unpunished murder, souring the land, the herds, and the wombs of the city. It cannot be cured by medicine, only by expelling the killer of [[laius|Laius]] \u2014 and the killer, unknown to all, is the king leading the hunt." }
+    ], beneath:"<p>Pollution is the play's proof that a crime against the order of things poisons the physical world \u2014 the same logic that rots the city over an unburied corpse in Antigone. It also gives the drama its detective shape: a hunt for the hidden source of a sickness. The terrible twist is that the physician and the disease are one man.</p>" },
+
+{ id:"the_sphinx", name:"The Sphinx", type:"character", tier:"supporting", themes:["identity"], essence:"The riddling monster whose defeat won Oedipus a throne \u2014 he answered the riddle of Man, and never suspected the riddle of himself.", rels:[
+      { id:"oedipus", label:"who answered her" },
+      { id:"riddle", label:"her deadly question" },
+      { id:"thebes", label:"the city she besieged" },
+      { id:"tyrannos", label:"the kingship her defeat won" }
+    ], sections:[
+      { h:"The Riddling Monster", body:"The Sphinx \u2014 winged, part woman, part lion \u2014 held [[thebes|Thebes]] in terror, devouring all who failed her [[riddle|riddle]]. [[oedipus|Oedipus]] answered it, and she destroyed herself; the freed city crowned him and gave him the widowed queen. The triumph that made him king seated him squarely in his own trap." }
+    ], beyond:"<p>The Sphinx is one of the most depicted figures in Greek art, her encounter with Oedipus a favourite of vase-painters. The deep irony is built into her: the man who solved the riddle of Man never suspected the riddle of himself. Her defeat is the act that made the whole tragedy possible \u2014 without it, there is no king, no marriage, no fall.</p>" },
+
+{ id:"riddle", name:"The Riddle", type:"object", tier:"supporting", themes:["identity", "sight"], essence:"The Sphinx's question \u2014 what goes on four legs, then two, then three? The answer is Man; the deeper answer, never asked, is Oedipus.", rels:[
+      { id:"the_sphinx", label:"who posed it" },
+      { id:"oedipus", label:"who solved it" },
+      { id:"tyrannos", label:"the crown it won" }
+    ], sections:[
+      { h:"The Riddle of Man", body:"What goes on four legs at dawn, two at midday, and three at evening? A human being \u2014 crawling as an infant, walking upright in its prime, leaning on a staff in age. [[oedipus|Oedipus]] alone gave the answer. The riddle's subject is the human creature; its unasked, deeper subject is Oedipus himself." }
+    ], beneath:"<p>The riddle is the play in miniature: a puzzle about the arc of a single life, solved brilliantly by a man who does not know the arc of his own. Man is both its answer and its mystery. And there is a darkness in the solving \u2014 the cleverness that saved a city is the same cleverness that will not rest until it has uncovered, and destroyed, the man who wielded it.</p>" },
+
+{ id:"fate_freewill", name:"Fate & Free Will", type:"concept", tier:"supporting", themes:["fate"], essence:"The question the play will not settle: is Oedipus doomed by the god's word, or the author of his own ruin \u2014 or, unbearably, both?", rels:[
+      { id:"oedipus", label:"caught in the question" },
+      { id:"oracle_prophecy", label:"the fate in play" },
+      { id:"oracles_world", label:"how prophecy works" },
+      { id:"aristotle", label:"who framed the question" }
+    ], sections:[
+      { h:"Doomed, or Free?", body:"The [[oracle_prophecy|oracle]] foretold it all \u2014 and yet every step is [[oedipus|Oedipus]]'s own: the flash of temper at the [[crossroads|crossroads]], the relentless hunt, the refusal to stop when [[jocasta|Jocasta]] begs him. The play sets prophecy and free choice side by side and declines, to the end, to say which one rules." }
+    ], beneath:"<p>This is the oldest debate the play provokes, and its answer is the most unsettling one: the prophecy is fulfilled not against Oedipus's will but through it. He is doomed and free at once \u2014 fate works precisely by way of his own characteristic acts, his pride, his intelligence, his refusal to look away. The gods do not force his hand; they do not need to.</p>" },
+
+{ id:"apollo", name:"Apollo", type:"character", tier:"supporting", pron:"uh-POL-oh", themes:["fate", "pollution"], essence:"The god of light, plague, and prophecy behind the Delphic oracle \u2014 the unseen power that sets everything in motion, and whom Oedipus, at the end, names as the author of his ruin.", sections:[
+      { h:"The God Behind It All", body:"Apollo never appears, and yet he is everywhere: the [[oracle_prophecy|oracle]] is his voice, the [[plague_pollution|plague]] is his to send and to lift, the truth [[tiresias|Tiresias]] speaks is his gift. When [[oedipus|Oedipus]] blinds himself, he cries that it was Apollo \u2014 Apollo \u2014 who brought these sufferings to pass, though the hand that struck was his own." }
+    ], beneath:"<p>Apollo is the play's fate given a name and a face, and kept resolutely offstage. Is he cruel, is he just, or is he merely the shape that the universe's indifference takes when a mind insists on reading purpose into it? The god of light presides, unseen, over a story that ends in self-made darkness \u2014 the play's largest irony, never spoken aloud.</p>", rels:[
+      { id:"oracle_prophecy", label:"whose word is his" },
+      { id:"plague_pollution", label:"which he sends and lifts" },
+      { id:"delphi", label:"his shrine" },
+      { id:"oedipus", label:"whom his word ruins" },
+      { id:"tiresias", label:"who speaks for him" }
+    ] },
+
+{ id:"hubris", name:"Hubris", type:"concept", tier:"supporting", pron:"HYOO-bris", themes:["fate", "sight"], essence:"The overbearing pride and quick fury of the tyrannos \u2014 Oedipus's rush to accuse, to threaten, to know at any cost; the human flaw the gods let run to its end.", sections:[
+      { h:"The King's Overreach", body:"[[oedipus|Oedipus]]'s virtues are also his hubris. The confidence that answered the [[riddle|riddle]] curdles into rage at [[tiresias|Tiresias]], suspicion of [[creon|Creon]], and a refusal to stop hunting even as the trail turns toward himself. He oversteps as a man determined to master what no mortal is meant to master." }
+    ], beneath:"<p>Hubris drives the classic shape of tragedy \u2014 the fall that is at once deserved and pitiable \u2014 but the play complicates the moral. To the Greeks hubris was violent overstepping, not mere arrogance, and Oedipus's is inseparable from his greatness: the very drive that makes him a saviour is the drive that will not let him look away from his own ruin.</p>", rels:[
+      { id:"oedipus", label:"whose flaw it is" },
+      { id:"tyrannos", label:"the ruler it belongs to" },
+      { id:"tiresias", label:"the seer he rages at" },
+      { id:"aristotle", label:"who named the flaw" }
+    ] },
+
+{ id:"second_messenger", name:"The Second Messenger", type:"character", tier:"supporting", themes:["sight"], essence:"The messenger who comes from inside the palace to report what cannot be shown \u2014 Jocasta's death and the king's self-blinding.", sections:[
+      { h:"The Voice from Within", body:"Greek tragedy keeps its worst violence offstage, and this messenger carries it out in words. He tells the [[chorus|chorus]] how [[jocasta|Jocasta]] died behind the doors, and how [[oedipus|Oedipus]], finding her, put out his own eyes \u2014 the horror made unbearable precisely because it is only spoken, and must be built in the listener's mind." }
+    ], beyond:"<p>The messenger-speech, the <em>rhesis</em>, is a set-piece of Greek tragedy: a burst of vivid narration where the stage falls still and language does the work spectacle cannot. Keeping the deaths offstage suited the masks, the modest resources, and Greek decorum \u2014 and discovered, along the way, that horror reported can strike harder than horror seen.</p>", rels:[
+      { id:"jocasta", label:"whose death he reports" },
+      { id:"oedipus", label:"whose blinding he tells" },
+      { id:"chorus", label:"to whom he speaks" },
+      { id:"greek_theatre", label:"the convention he embodies" }
+    ] },
+
+{ id:"tyrannos", name:"The Tyrannos", type:"concept", tier:"supporting", pron:"tuh-RAN-os", themes:["identity", "fate"], essence:"The word in the play's Greek title \u2014 a ruler who holds power by achievement rather than birth; a bitter name for the self-made king who turns out to be the rightful heir all along.", sections:[
+      { h:"King by Merit, King by Blood", body:"[[oedipus|Oedipus]] is a <em>tyrannos</em>: not born to the throne of [[thebes|Thebes]] but raised to it for solving the [[riddle|riddle]] \u2014 the outsider who earned his crown. The play's cruelest turn is that he was the trueborn heir the entire time. The self-made man was never self-made; he only had to come home to find it was his by blood." }
+    ], beneath:"<p>The Greek <em>tyrannos</em> had not yet hardened into our \u201ctyrant\u201d \u2014 it named a ruler who took power rather than inheriting it, and carried unease about authority that answers to no lineage. In Oedipus the categories collapse: merit and birth turn out to be the same crown. The title itself is a riddle about who he is, posed before the play begins.</p>", rels:[
+      { id:"oedipus", label:"the ruler it names" },
+      { id:"thebes", label:"the throne he won" },
+      { id:"riddle", label:"by which he won it" }
+    ] },
+
+{ id:"knowledge", name:"Knowledge & Ignorance", type:"concept", tier:"supporting", themes:["sight", "identity"], essence:"The play's terrible engine \u2014 the drive to know, and the ruin that knowing brings; a man who would be happier ignorant, and cannot stop until he sees.", sections:[
+      { h:"The Cost of Knowing", body:"[[oedipus|Oedipus]] built his life on knowing what others could not. The play asks whether some knowledge should be left unsought: he could stop the investigation at any point, and does not, because knowing who he is matters to him more than being spared. [[jocasta|Jocasta]] begs him to remain in ignorance; he refuses, and the refusal is the man." }
+    ], beneath:"<p>Here the examined life is pushed to a breaking point the philosophers rarely reach. Ignorance is offered as a mercy, and the hero rejects it \u2014 not from recklessness but from a need to know that is the core of who he is. The same intellect that saved [[thebes|Thebes]] destroys the man; knowledge is at once his glory and his doom, and the play refuses to say he chose wrongly.</p>", rels:[
+      { id:"oedipus", label:"driven to know" },
+      { id:"jocasta", label:"who begs him not to" },
+      { id:"sight_blindness", label:"the seeing that comes too late" }
+    ] },
+
+{ id:"polybus", name:"Polybus", type:"character", tier:"minor", pron:"POL-ih-bus", themes:["identity"], essence:"The king of Corinth who raised Oedipus as his own son \u2014 whose peaceful death, meant to prove the prophecy false, instead unravels the truth.", sections:[
+      { h:"The Father Who Wasn't", body:"[[oedipus|Oedipus]] fled [[corinth|Corinth]] to avoid the prophecy that he would kill his father, believing Polybus was that father. Word that Polybus has died of old age brings a flash of relief \u2014 the oracle beaten at last \u2014 until the [[corinthian|messenger]] reveals that Oedipus was never his son at all." }
+    ] },
+
+{ id:"merope", name:"Merope", type:"character", tier:"minor", pron:"MER-uh-pee", themes:["identity"], essence:"The queen of Corinth, Oedipus's foster-mother, whom he fled to avoid the prophecy of marrying his mother \u2014 not knowing she was never his to fear.", sections:[
+      { h:"The Mother He Fled", body:"To spare himself the prophecy, [[oedipus|Oedipus]] ran from [[corinth|Corinth]] and [[merope|Merope]] toward [[thebes|Thebes]] and his true, unknown parents. The flight from a mother he need not have feared carried him straight into the fate he was fleeing." }
+    ] },
+
+{ id:"the_children", name:"Antigone & Ismene", type:"character", tier:"minor", themes:["identity"], essence:"Oedipus's small daughters, brought to him at the end \u2014 children who are also his sisters, and who will carry the ruined house into their own tragedies.", sections:[
+      { h:"The Daughters", body:"In the final scene [[oedipus|Oedipus]] asks to hold his two little girls one last time, grieving the lives that wait for them \u2014 no one will marry the daughters of such a house. The audience knows their names already: Antigone and Ismene, whose own story is a generation away, and just as dark." }
+    ] },
+
+{ id:"sophocles", name:"Sophocles", type:"concept", tier:"supporting", pron:"SOF-uh-kleez", themes:["fate"], essence:"The Athenian who wrote this \u2014 a public man of a public city, and the most technically ruthless plotter the theatre has ever produced.", sections:[
+      { h:"The Man", body:"Sophocles lived some ninety years, across the whole golden age of Athens and into the long war that ruined it. He was no recluse: treasurer of the empire, elected general, holder of a priesthood. He wrote well over a hundred plays and won the festival more often than anyone else; seven tragedies survive whole.\n\n<em>Oedipus Rex</em> comes around 429 BCE, in his maturity. It did not win first prize." },
+      { h:"The Machine", body:"What sets this play apart is not its language but its engineering. Everything has already happened; the entire drama is the uncovering. Sophocles compresses a lifetime into a single day and a single doorway, and every scene tightens the noose \u2014 with the added cruelty that each new fact arrives disguised as relief.\n\nHe also broke with [[apollo|the old]] practice of linked trilogies, writing each tragedy as a self-contained thing. That is why this play feels airless in the way it does: one day, one place, no larger frame, no escape hatch." }
+    ], beyond:"<p>Aristotle, a century later, took this play apart in the <em>Poetics</em> and built his theory of tragedy out of the pieces \u2014 the fall of a good man through error rather than vice, the reversal and the recognition landing in the same instant. Every subsequent Western idea of what a tragedy <em>is</em> descends, more or less directly, from him staring at this one text.</p>", rels:[
+      { id:"dionysia", label:"where it was staged" },
+      { id:"greek_theatre", label:"the form he mastered" },
+      { id:"oedipus", label:"his creation" },
+      { id:"aristotle", label:"who theorised from him" }
+    ] },
+
+{ id:"dionysia", name:"The City Dionysia", type:"concept", tier:"supporting", pron:"dy-uh-NISH-ee-uh", themes:["pollution"], essence:"The festival where this premiered \u2014 a state occasion, a religious rite, and a competition, played in daylight to most of Athens at once.", sections:[
+      { h:"A Festival, Not a Night Out", body:"Tragedy happened once a year, in early spring, at a festival for the god Dionysus: days of procession, sacrifice, and drink, with the plays at the centre.\n\nThe audience was vast \u2014 perhaps fourteen thousand \u2014 on an open hillside, in daylight, from dawn. Three playwrights competed, each with three tragedies plus a bawdy satyr-play, and a panel awarded a prize. Your tragedy was an entry in a contest, watched by the whole city, and the city judged it." },
+      { h:"The Plague in the Room", body:"Here the context is almost unbearable. Athens had just been through a real plague \u2014 it broke out in 430 BCE, killed perhaps a quarter or a third of the population, and took Pericles himself. The city had buried its dead in heaps and watched the temples fill.\n\nAnd then Sophocles opened a play with a stage full of suppliants begging a king to save a city dying of pestilence. His audience did not have to imagine it. They had just lived it \u2014 and they were being asked to consider that a plague might be the visible symptom of a hidden crime." }
+    ], beneath:"<p>The festival explains the strange public seriousness of these plays. A tragedy was something the city did to itself, in the open, once a year: it took the audience's own founding assumptions \u2014 about knowledge, power, the gods \u2014 and staged them breaking. That thousands of citizens would sit for that in daylight, and then vote a prize to whoever did it best, remains one of the odder facts in the history of politics.</p>", rels:[
+      { id:"greek_theatre", label:"where it happened" },
+      { id:"sophocles", label:"who competed" },
+      { id:"plague_pollution", label:"which Athens had just survived" }
+    ] },
+
+{ id:"greek_theatre", name:"The Greek Theatre", type:"concept", tier:"supporting", themes:["sight"], essence:"Masks, daylight, a round dancing-floor, three actors \u2014 and no violence ever shown. Knowing the machine makes the play land harder.", sections:[
+      { h:"The Space and the Rules", body:"An open hillside, full daylight, almost no scenery. At the centre a round dancing-floor, the <em>orchestra</em>, where the [[chorus|chorus]] sings and moves. Behind it a wooden building, the <em>skene</em>, whose door is the palace door \u2014 and everything inside it is out of sight.\n\nAll parts are played by three men in masks: painted, mouth open, covering the whole head. One actor plays several roles; every part, [[jocasta|Jocasta]] included, is played by a man. No close-up, no flicker of expression, no whisper. Voice, gesture, and words carry everything." },
+      { h:"The Mask and the Blinding", body:"The convention pays off spectacularly here. The self-blinding happens behind the door, and a [[second_messenger|messenger]] describes it \u2014 the golden pins, the eyes, the black rain of blood.\n\nAnd then the doors open, and [[oedipus|Oedipus]] comes out in a <em>new mask</em>. The audience has watched one face for two hours; now it is replaced by a ruined one. A modern production has to do this with makeup and lighting and hope. The Greeks did it with a single, brutal substitution \u2014 the face of the man who saw everything, swapped for the face of what seeing cost him." }
+    ], beyond:"<p>Nearly everything we would most want is gone: the music (every ode was sung to a double-pipe and danced), the choreography, the masks themselves. What survives is the text \u2014 maybe a third of what an Athenian experienced. Every modern staging is a reconstruction of a ghost.</p>", rels:[
+      { id:"chorus", label:"who filled the dancing-floor" },
+      { id:"dionysia", label:"the festival it served" },
+      { id:"second_messenger", label:"who reports the unseen" },
+      { id:"sight_blindness", label:"which the mask makes literal" }
+    ] },
+
+{ id:"oracles_world", name:"Oracles & Prophecy", type:"concept", tier:"supporting", themes:["fate", "identity"], essence:"How a Greek actually consulted a god \u2014 and why the answers were famously true, famously ambiguous, and famously useless for escaping anything.", sections:[
+      { h:"How It Worked", body:"[[delphi|Delphi]] was the most authoritative place in the Greek world. A priestess, the Pythia, sat over a cleft in the rock, went into a trance, and spoke; priests rendered her words into verse. Cities consulted it before founding colonies or going to war. Individuals came about marriages, illnesses, and children. You did not doubt it; you tried to interpret it.\n\nAnd its answers were notorious for double meanings. A king was once told that if he attacked, he would destroy a great empire. He attacked. The empire he destroyed was his own." },
+      { h:"The Trap Built In", body:"That is exactly the shape of the trap here. [[oedipus|Oedipus]] goes to [[delphi|Delphi]] to ask a simple question \u2014 who are my parents? \u2014 and the god does not answer it. It tells him instead what he will do. And so he flees the people he believes are his parents, and walks straight into the ones who are.\n\nWatch how consistently the god tells the truth and how consistently it ruins everyone: it warns [[laius|Laius]], who tries to murder a baby; it warns Oedipus, who runs; it names the pollution, and the naming destroys the man who asked. Nobody in this play is lied to. Everyone is annihilated anyway." }
+    ], beneath:"<p>This is the play's cold theological point. Prophecy in Greek thought <em>describes</em>; it does not obviously <em>compel</em>. Nobody forces [[oedipus|Oedipus]] to lose his temper at the [[crossroads|crossroads]]; nobody forces him to keep asking questions. And yet the word comes true through his freest, most characteristic acts. The oracle does not overrule his will \u2014 it works by means of it. Which raises the question the play never answers: what, exactly, would he have had to be, in order to escape?</p>", rels:[
+      { id:"delphi", label:"the great shrine" },
+      { id:"apollo", label:"whose voice it is" },
+      { id:"oracle_prophecy", label:"the word given" },
+      { id:"fate_freewill", label:"the question it poses" },
+      { id:"tiresias", label:"who reads the god" }
+    ] },
+
+{ id:"plague_athens", name:"Miasma & the Sick City", type:"concept", tier:"supporting", pron:"my-AZ-muh", themes:["pollution"], essence:"To a Greek, an unpunished murder was not a moral stain but a physical contagion \u2014 which is why a city can literally rot around a secret.", sections:[
+      { h:"Pollution Is Not a Metaphor", body:"<em>Miasma</em> was believed to work like an infection. A serious crime \u2014 above all an unavenged killing, or a corpse denied its rites \u2014 polluted the ground, the altars, the crops, the wombs, the whole community, whether or not the community knew about it or consented to it.\n\nSo the logic of the play is not superstition dressed as medicine; to its audience it <em>was</em> the medicine. If a city is dying and no natural cause explains it, look for the hidden crime. The [[oracle_prophecy|oracle]]'s prescription \u2014 find the killer, cast him out, and the [[plague_pollution|plague]] lifts \u2014 is straightforward public health." },
+      { h:"Why It Makes a Detective Story", body:"This single belief is what turns a myth into an investigation. Pollution gives you a symptom ([[thebes|the city dying]]), a hidden cause (an unsolved murder), and a cure (expulsion) \u2014 which is to say a mystery, a culprit, and a stake.\n\nAnd it delivers the horror. [[oedipus|Oedipus]] is not merely a man with a guilty past. He is the infection. His presence is what is killing the children of his own city, and every day he does not find himself, more of them die." }
+    ], beneath:"<p>Note the cruelty in how impersonal it is. Miasma does not care that [[oedipus|Oedipus]] did not know. Intention is irrelevant; the pollution is a fact about the world, not about his heart. He is guilty in the way a contaminated well is guilty. That is why his self-punishment feels both excessive and, within the play's logic, exactly right \u2014 and it is why a modern reader, who wants to say <em>but he didn't know</em>, keeps finding the play refusing to grant the excuse.</p>", rels:[
+      { id:"plague_pollution", label:"the sickness itself" },
+      { id:"oedipus", label:"the pollution" },
+      { id:"thebes", label:"the city it rots" },
+      { id:"laius", label:"the unavenged murder" }
+    ] },
+
+{ id:"aristotle", name:"Aristotle's Model Tragedy", type:"concept", tier:"supporting", pron:"AIR-iss-tot-ul", themes:["identity", "sight"], essence:"A century later, a philosopher took this play apart to explain what tragedy is \u2014 and every Western idea of tragedy since has descended from that dissection.", sections:[
+      { h:"The Poetics", body:"Aristotle, writing around a hundred years after the play, used <em>Oedipus Rex</em> as his central exhibit and produced the terms we still argue with.\n\n<em>Hamartia</em>: the fall comes not from wickedness but from an error \u2014 a mistake, a misjudgement, a blind spot. <em>Peripeteia</em>: the reversal, where an action produces the opposite of what was intended. <em>Anagnorisis</em>: the recognition, the passage from ignorance to knowledge. And <em>catharsis</em>: the purging of pity and terror in the audience.\n\nWhat made this play the model, for him, is that the reversal and the recognition arrive in the same stroke. The [[corinthian|Corinthian]] comes to relieve [[oedipus|Oedipus]] of his fear, and by doing so reveals who he is. The good news and the annihilation are the same sentence." },
+      { h:"The Argument It Started", body:"Ever since, readers have fought over what [[oedipus|Oedipus]]'s error actually <em>is</em>. His temper at the [[crossroads|crossroads]]? His [[hubris|arrogance]] toward [[tiresias|Tiresias]]? His refusal to stop investigating? Or nothing at all \u2014 simply the metaphysical bad luck of being who he is?\n\nThat last reading is the bleakest and, to many, the truest. If there is no flaw to point at, then the play is not a lesson about pride. It is a report about the universe: that a life can be well lived, intelligently, decently, and still be destroyed \u2014 and that the catastrophe was in place before you were born." }
+    ], beneath:"<p>It is worth noticing what Aristotle's framework quietly does. It makes tragedy legible \u2014 flaw, error, fall, insight \u2014 and legibility is a kind of comfort. If the hero erred, then we, who would not err, are safe. The play is considerably less reassuring than the theory built on it. Sophocles gives us a man of exceptional intelligence, courage, and public devotion, who acts on the best information available and is obliterated. The <em>Poetics</em> is a brilliant reading. It may also be a flinch.</p>", rels:[
+      { id:"oedipus", label:"his central exhibit" },
+      { id:"sophocles", label:"whom he theorised" },
+      { id:"hubris", label:"the flaw in question" },
+      { id:"fate_freewill", label:"the argument it feeds" }
+    ] },
+
+{ id:"exposure", name:"Exposing a Child", type:"concept", tier:"minor", themes:["identity", "fate"], essence:"Leaving an unwanted newborn on a mountainside was a real and legal Greek practice \u2014 which is what makes the beginning of this story ordinary, and therefore worse.", sections:[
+      { h:"A Thing People Did", body:"A Greek family that could not or would not keep a newborn \u2014 deformed, illegitimate, female, one mouth too many \u2014 could carry it out and leave it exposed. Death was expected; rescue by a stranger was possible; the family's hands stayed technically clean, since no one had killed anyone.\n\nSo [[laius|Laius]] and [[jocasta|Jocasta]] are not doing something unthinkable. They are doing something available. That is the horror underneath the horror: the act that sets the whole tragedy in motion was, in its world, a legal and unremarkable decision \u2014 and it was undone by nothing grander than a [[shepherd|shepherd]] who could not bring himself to leave a baby on a hill." }
+    ], rels:[
+      { id:"cithaeron", label:"where it was done" },
+      { id:"shepherd", label:"who refused" },
+      { id:"laius", label:"who ordered it" },
+      { id:"jocasta", label:"who handed the child over" }
+    ] }
+
+];
+
+/* ================= INDEX ================= */
+var BYID = {}; ENTITIES.forEach(function(e){ BYID[e.id] = e; });
+var THEMEBY = {}; THEMES.forEach(function(t){ THEMEBY[t.id] = t; });
+var TIER_RANK = { major:0, supporting:1, minor:2 };
+
+/* ================= linkify ================= */
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function linkify(str){
+  if(str == null) return "";
+  return String(str).replace(/\[\[([^\]|]+)\|([^\]]+)\]\]/g, function(m, id, label){
+    var ok = !!BYID[id];
+    return '<a class="'+(ok?"xref":"xref broken")+'" data-id="'+esc(id)+'" tabindex="0" role="button">'+esc(label)+'</a>';
+  });
+}
+function paras(body){ return String(body).split(/\n\n+/).map(function(p){ return "<p>"+linkify(p)+"</p>"; }).join(""); }
+function clueParas(body){ return String(body).split(/\n\n+/).map(function(p){ return '<p class="bs">'+linkify(p)+'</p>'; }).join(""); }
+
+/* ================= VIEWS ================= */
+var MODES = [
+  { hash:"#themes", label:"Themes" },
+  { hash:"#investigation", label:"The Investigation" },
+  { hash:"#house", label:"The House" },
+  { hash:"#reference", label:"Index" }
+];
+function renderModes(active){
+  document.getElementById("modes").innerHTML = MODES.map(function(m){
+    return '<button'+(active===m.hash?' aria-current="true"':'')+' onclick="go(\''+m.hash+'\')">'+m.label+'</button>';
+  }).join("");
+}
+function chip(e){
+  var maj = e.tier==="major" ? " major" : "";
+  var dot = e.tier==="major" ? '<span class="dotm"></span>' : "";
+  return '<button class="chip'+maj+'" onclick="go(\'#entity/'+e.id+'\')">'+dot+esc(e.name)+'<span class="tag">'+TYPES[e.type]+'</span></button>';
+}
+function way(k,t,d,hash){ return '<button class="way" onclick="go(\''+hash+'\')"><span class="k">'+k+'</span><span class="t">'+t+'</span><span class="d">'+d+'</span></button>'; }
+
+function viewHome(){
+  renderModes("#home");
+  return '<div class="hero fade">'+
+    '<p class="eyebrow">Sophocles &middot; c. 429 BCE &middot; Thebes</p>'+
+    '<h1>A city is <span class="b">dying</span>.<br>The king hunts the killer.<br>The trail leads <span class="g">home</span>.</h1>'+
+    '<p class="lede">Thebes is choking on plague, and the oracle demands the murderer of the old king be found and cast out. Oedipus swears to hunt him down \u2014 not knowing he is the man he seeks. A companion for walking that descent \u2014 pick a way in.</p>'+
+    '<section class="orient fade">'+
+      '<h2 class="orient-h">Start here</h2>'+
+      '<p><b>What this is</b> <i>Oedipus Rex</i> (also called <i>Oedipus the King</i>) is a tragedy by the Athenian playwright Sophocles (SOF-uh-kleez), staged around 429 BCE. Aristotle called it the finest tragedy ever written.</p>'+
+      '<p><b>The situation</b> The Greek city of Thebes (THEEBZ) is being destroyed by plague. Its king, Oedipus (ED-ih-pus) \u2014 the outsider who once saved the city by solving the Sphinx\u2019s riddle \u2014 learns from the oracle that the plague will lift only when the unpunished killer of the previous king, Laius (LY-us), is found. He vows to find the murderer.</p>'+
+      '<p><b>The turn</b> The play is the first great detective story: Oedipus investigates the murder and slowly uncovers that he himself is the killer \u2014 and that, long ago, without knowing it, he killed his own father and married his own mother, Jocasta (joh-KAS-tuh). Every step taken to escape the prophecy is the step that fulfilled it.</p>'+
+      '<p><b>Why it lasts</b> It asks whether we are free or fated, and stages the unbearable moment when a person finally sees the truth of who they are. Aristotle drew his theory of tragedy from it; Freud borrowed its name.</p>'+
+      '<p><b>How to use this</b> Pick any way in below \u2014 follow the clues, the family, or the ideas. Tap or hover any <span class="xhint">highlighted name</span> for a one-line who\u2019s-this, and how to say it out loud.</p>'+
+    '</section>'+
+    '<div class="ways">'+
+      way("Themes","The four questions","Fate and the oracle, sight and blindness, plague and pollution, the horror of origin \u2014 by idea.","#themes")+
+      way("The Investigation","Follow the clues","The reveal, step by step: each piece of evidence, and how the thing meant to save him damns him.","#investigation")+
+      way("The House","The tree folds in","The family that collapses on itself \u2014 father, son, husband, mother, all in the same people.","#house")+
+      way("Index","Everyone and everything","An A\u2013Z of every figure, place, and idea, with its essence in a line.","#reference")+
+    '</div></div>';
+}
+
+function viewThemes(){
+  renderModes("#themes");
+  var html = '<div class="vhead fade"><p class="eyebrow">Ways in &middot; by idea</p><h2>The four questions</h2><p>Every figure in the play is pulled between these. Follow an idea and see whom it catches.</p></div>';
+  THEMES.forEach(function(t){
+    var members = ENTITIES.filter(function(e){ return e.themes && e.themes.indexOf(t.id)>=0; }).sort(function(a,b){ return TIER_RANK[a.tier]-TIER_RANK[b.tier]; });
+    html += '<div class="cluster fade"><h3>'+esc(t.name)+'</h3><p class="blurb">'+esc(t.blurb)+'</p><div class="chips">'+members.map(chip).join("")+'</div></div>';
+  });
+  return html;
+}
+
+function viewInvestigation(){
+  renderModes("#investigation");
+  var html = '<div class="vhead fade"><p class="eyebrow">Ways in &middot; the reveal</p><h2>The Investigation</h2><p>Sophocles wrote the first detective story \u2014 a man hunting a murderer who turns out to be himself. Follow the evidence as it gathers. Watch the pattern: again and again, the clue meant to reassure is the clue that damns. Each step opens onto how it played on the Greek stage, and what it turns.</p></div><div class="spine">';
+  CLUES.forEach(function(c){
+    html += '<div class="beat clue fade"><span class="rn">'+esc(c.n)+'</span><h4>'+esc(c.h)+'</h4>'+
+      clueParas(c.body)+
+      (c.stage?'<details class="panel scene-stage"><summary><span class="pl">On the Stage</span><span class="pt">the craft</span><span class="mk">+</span></summary><div class="pbody">'+linkify(c.stage)+'</div></details>':'')+
+      (c.turns?'<details class="panel scene-turns"><summary><span class="pl">What Turns Here</span><span class="pt">the stakes</span><span class="mk">+</span></summary><div class="pbody">'+linkify(c.turns)+'</div></details>':'')+
+      '</div>';
+  });
+  return html + '</div>';
+}
+
+function viewHouse(){
+  renderModes("#house");
+  function g(label, ids){ return '<div class="genlabel">'+label+'</div><div class="gen">'+ids.map(function(id){ return BYID[id]?chip(BYID[id]):""; }).join("")+'</div>'; }
+  return '<div class="vhead fade"><p class="eyebrow">Ways in &middot; by blood</p><h2>The House</h2><p>Oedipus Rex has one family, and its horror is that the family tree folds back on itself. The same people occupy two places at once.</p></div>'+
+    '<div class="houses"><div class="housecard fade"><h3>The House of Thebes</h3><p class="sub">a lineage that closes into a loop</p>'+
+      g("King and queen", ["laius","jocasta"])+
+      g("Their son, given away to die", ["oedipus"])+
+      g("The stranger who returned as king", ["oedipus"])+
+      g("The one who witnessed it all", ["shepherd"])+
+    '</div></div>'+
+    '<p class="hinge fade">'+linkify('<b>The fold:</b> [[oedipus|Oedipus]] is the son of [[laius|Laius]] and [[jocasta|Jocasta]] \u2014 and also the man who killed [[laius|Laius]] and married [[jocasta|Jocasta]]. He is at once their child and, to Jocasta, her husband; his own children will be his siblings. One family, every role doubled and poisoned \u2014 the family tree grown into a closed circle.')+'</p>';
+}
+
+function viewReference(){
+  renderModes("#reference");
+  var sorted = ENTITIES.slice().sort(function(a,b){ return a.name.replace(/^The /,"").localeCompare(b.name.replace(/^The /,"")); });
+  return '<div class="vhead fade"><p class="eyebrow">Ways in &middot; the reliable list</p><h2>Index</h2><p>Everything in the companion, A to Z.</p></div><div class="refgrid fade">'+
+    sorted.map(function(e){ return '<div class="refrow" onclick="go(\'#entity/'+e.id+'\')"><span class="rn2">'+esc(e.name)+'</span><span class="re">'+esc(e.essence)+'</span><span class="rt">'+TYPES[e.type]+'</span></div>'; }).join("")+'</div>';
+}
+
+function viewEntity(id){
+  var e = BYID[id];
+  if(!e){ return '<p>Nothing here by that name. <button class="backbtn" onclick="go(\'#reference\')">To the index</button></p>'; }
+  renderModes("");
+  var html = '<div class="backbar fade"><button class="backbtn" onclick="back()">&larr; Back</button></div>'+
+    '<article class="entity fade"><div class="kicker"><span>'+TYPES[e.type]+'</span><span class="tier">'+e.tier+'</span></div>'+
+    '<h1>'+esc(e.name)+'</h1>'+
+    (e.pron ? '<p class="pron">said <b>'+esc(e.pron)+'</b></p>' : "")+
+    (e.aka ? '<p class="aka">'+esc(e.aka)+'</p>' : "")+
+    '<p class="essence">'+linkify(e.essence)+'</p>';
+  if(e.sections){ e.sections.forEach(function(s,i){ html += '<details class="sec"'+(i===0?" open":"")+'><summary><span class="h">'+esc(s.h)+'</span><span class="mk">+</span></summary><div class="body">'+paras(s.body)+'</div></details>'; }); }
+  if(e.beneath){ html += '<details class="panel beneath"><summary><span class="pl">Beneath</span><span class="pt">the buried meaning</span><span class="mk">+</span></summary><div class="pbody">'+linkify(e.beneath)+'</div></details>'; }
+  if(e.beyond){ html += '<details class="panel beyond"><summary><span class="pl">Beyond</span><span class="pt">stage, history, afterlife</span><span class="mk">+</span></summary><div class="pbody">'+linkify(e.beyond)+'</div></details>'; }
+  if(e.rels){ html += '<div class="rels"><h3>Connections</h3>'+e.rels.map(function(r){ var t=BYID[r.id]; return '<div class="rel" onclick="go(\'#entity/'+r.id+'\')"><span class="rname">'+esc(t?t.name:r.id)+'</span><span class="rlab">'+esc(r.label)+'</span></div>'; }).join("")+'</div>'; }
+  return html + '</article>';
+}
+
+/* ================= ROUTER ================= */
+var scrollByHash = {}, lastHash = "#home";
+function render(){
+  var h = location.hash || "#home", view = document.getElementById("view"), html;
+  if(h.indexOf("#entity/")===0){ html = viewEntity(h.slice(8)); }
+  else if(h==="#themes"){ html = viewThemes(); }
+  else if(h==="#investigation"){ html = viewInvestigation(); }
+  else if(h==="#house"){ html = viewHouse(); }
+  else if(h==="#reference"){ html = viewReference(); }
+  else { html = viewHome(); }
+  view.innerHTML = html;
+  window.scrollTo(0, scrollByHash[h]!=null ? scrollByHash[h] : 0);
+  try{ localStorage.setItem("or_last", h); }catch(err){}
+  lastHash = h;
+}
+function go(hash){ scrollByHash[lastHash] = window.scrollY; closePop(); if(location.hash===hash){ render(); } else { location.hash = hash; } }
+function back(){ if(history.length>1){ history.back(); } else { go("#home"); } }
+window.addEventListener("hashchange", function(){ closePop(); render(); });
+
+/* ================= POPOVER ================= */
+var pop = document.getElementById("pop");
+var canHover = window.matchMedia("(hover:hover) and (pointer:fine)").matches;
+var hideTimer = null, currentPopId = null;
+function openPop(anchor){
+  var e = BYID[anchor.getAttribute("data-id")]; if(!e) return;
+  pop.innerHTML = '<p class="pk">'+TYPES[e.type]+' &middot; '+e.tier+'</p><p class="pn">'+esc(e.name)+'</p>'+
+    (e.pron ? '<p class="ppron">said '+esc(e.pron)+'</p>' : "")+
+    '<p class="pe">'+esc(e.essence)+'</p><button class="po" data-open="'+e.id+'">Open in full &rarr;</button>';
+  pop.classList.add("show"); position(anchor);
+}
+function position(anchor){
+  if(window.innerWidth<=560) return;
+  var r = anchor.getBoundingClientRect(), pw = Math.min(320, window.innerWidth-32);
+  pop.style.left = Math.min(Math.max(12, r.left), window.innerWidth-pw-12)+"px";
+  var below = r.bottom+10, ph = pop.offsetHeight||160;
+  pop.style.top = (below+ph > window.innerHeight-12 && r.top-ph-10 > 0) ? (r.top-ph-10)+"px" : below+"px";
+}
+function closePop(){ pop.classList.remove("show"); pop.innerHTML = ""; }
+function popOpen(){ return pop.classList.contains("show"); }
+/* capture-phase dismiss: consume the click so nothing underneath fires */
+document.addEventListener("click", function(ev){
+  if(!popOpen()) return;
+  var openBtn = ev.target.closest ? ev.target.closest("[data-open]") : null;
+  if(openBtn){ ev.preventDefault(); ev.stopPropagation(); var id=openBtn.getAttribute("data-open"); closePop(); go("#entity/"+id); return; }
+  if(pop.contains(ev.target)) return;
+  ev.preventDefault(); ev.stopPropagation(); closePop(); currentPopId=null;
+}, true);
+document.addEventListener("click", function(ev){
+  var xref = ev.target.closest ? ev.target.closest(".xref") : null;
+  if(!xref) return;
+  ev.preventDefault(); ev.stopPropagation();
+  if(xref.classList.contains("broken")) return;
+  if(popOpen() && currentPopId===xref.getAttribute("data-id")){ closePop(); currentPopId=null; return; }
+  currentPopId = xref.getAttribute("data-id"); openPop(xref);
+});
+document.addEventListener("keydown", function(ev){
+  if((ev.key==="Enter"||ev.key===" ") && ev.target.classList && ev.target.classList.contains("xref")){ ev.preventDefault(); currentPopId=ev.target.getAttribute("data-id"); openPop(ev.target); }
+  if(ev.key==="Escape"){ closePop(); currentPopId=null; }
+});
+if(canHover){
+  document.addEventListener("mouseover", function(ev){ var x=ev.target.closest?ev.target.closest(".xref"):null; if(!x||x.classList.contains("broken"))return; clearTimeout(hideTimer); currentPopId=x.getAttribute("data-id"); openPop(x); });
+  document.addEventListener("mouseout", function(ev){ var x=ev.target.closest?ev.target.closest(".xref"):null; var toPop=ev.relatedTarget&&pop.contains(ev.relatedTarget); if(x&&!toPop){ hideTimer=setTimeout(function(){ if(!pop.matches(":hover")) closePop(); },120); } });
+  pop.addEventListener("mouseleave", function(){ hideTimer=setTimeout(closePop,120); });
+  pop.addEventListener("mouseenter", function(){ clearTimeout(hideTimer); });
+}
+window.addEventListener("resize", closePop);
+window.addEventListener("scroll", function(){ if(popOpen() && window.innerWidth>560){ closePop(); } }, {passive:true});
+
+/* ================= BOOT ================= */
+if(!location.hash){ var saved=null; try{ saved=localStorage.getItem("or_last"); }catch(err){} location.hash = saved || "#home"; }
+else { render(); }
+if(!location.hash) render();
+</script>
+</body>
+</html>
